@@ -16,15 +16,18 @@ message = "Subject: Test Mail API \n"
 
 for article in content["articles"]:
 
-    # Add title to message
-    entry = f"{article["title"]}\n"
+    # Add title to message and check if NoneType
+    if article["title"] is None:
+        entry = "--- No Title ---"
+    else:
+        entry = f"{article["title"]}\n"
+
     message += entry
 
-    # Check if description is non NoneType otherwise .replace() will print bug
+    # Add description and check if NoneType
     if article["description"] is None:
-        pass
+        entry = "--- No Description ---"
     else:
-        # Add description to message and remove excess break lines
         entry = f"{article["description"].replace('\n', '')}\n ------------------------------------ \n"
 
     message += entry
