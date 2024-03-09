@@ -11,13 +11,26 @@ request = requests.get(url)
 # Get data from API and put it into Dictionary
 content = request.json()
 
+# Construct title for Email message
 message = "Subject: Test Mail API \n"
 
 for article in content["articles"]:
-    entry = (f"{article["title"]}\n"
-             f"{article["description"]}\n")
+
+    # Add title to message
+    entry = f"{article["title"]}\n"
+    message += entry
+
+    # Check if description is non NoneType otherwise .replace() will print bug
+    if article["description"] is None:
+        pass
+    else:
+        # Add description to message and remove excess break lines
+        entry = f"{article["description"].replace('\n', '')}\n ------------------------------------ \n"
 
     message += entry
+
+# Encode message to utf-8 to fix Bug
+message = message.encode('utf-8')
 
 print(message)
 
